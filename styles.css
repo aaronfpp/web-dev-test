@@ -163,6 +163,26 @@ p {
     background-color: #e0e0e0;
 }
 
+.chat-reset-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #1e3a8a;
+    border: none;
+    font-size: 1em;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.chat-reset-btn:hover {
+    background-color: #e0e0e0;
+}
+
 .chat-body {
     flex: 1;
     padding: 15px;
@@ -170,6 +190,14 @@ p {
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
+}
+
+#initial-options,
+#next-options,
+#final-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .chat-option {
