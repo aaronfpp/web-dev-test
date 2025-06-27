@@ -89,3 +89,78 @@ p {
     font-size: 1.2em;
     line-height: 1.6;
 }
+
+.chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a90e2, #000);
+    color: #fff;
+    border: none;
+    font-size: 0.9em;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.chat-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 25%;
+    min-width: 250px;
+    height: 50%;
+    min-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 1001;
+}
+
+.chat-popup.open {
+    display: block;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #1e3a8a;
+    color: #fff;
+    padding: 10px;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.chat-option {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.chat-option:hover {
+    background-color: #357abd;
+}
