@@ -28,6 +28,10 @@
                 <button class="chat-option" onclick="showAnswer(7)">Option 7</button>
             </div>
             <div id="chat-answer" class="chat-answer"></div>
+            <form id="chat-form" onsubmit="handleTextInput(event)">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Type your question..." required>
+                <button type="submit" class="chat-submit">Send</button>
+            </form>
         </div>
     </div>
     <script>
@@ -52,6 +56,27 @@
             document.getElementById('chat-answer').innerHTML = '';
         }
 
+        function handleTextInput(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            const answerDiv = document.getElementById('chat-answer');
+            const initialOptions = document.getElementById('initial-options');
+            const nextOptions = document.getElementById('next-options');
+            const finalOptions = document.getElementById('final-options');
+            const userText = input.value.trim();
+            if (userText) {
+                answerDiv.innerHTML += `<div class="user-message">You: ${userText}</div>`;
+                answerDiv.innerHTML += `<div class="bot-message">Processing your input...</div>`;
+                initialOptions.style.display = 'none';
+                nextOptions.style.display = 'none';
+                finalOptions.style.display = 'none';
+                input.value = '';
+                answerDiv.scrollTop = answerDiv.scrollHeight; // Scroll to bottom
+                // Future word list logic can be added here, e.g.:
+                // if (userText.includes('keyword')) showAnswer(X);
+            }
+        }
+
         function resetChat() {
             const initialOptions = document.getElementById('initial-options');
             const nextOptions = document.getElementById('next-options');
@@ -61,6 +86,7 @@
             nextOptions.style.display = 'none';
             finalOptions.style.display = 'none';
             answerDiv.innerHTML = '';
+            document.getElementById('chat-input').value = '';
         }
 
         function closeChat() {
