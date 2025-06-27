@@ -9,23 +9,62 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
+            <button class="chat-reset-btn" onclick="resetChat()">⟳</button>
             What would you like to know?
             <button class="chat-close-btn" onclick="closeChat()">✕</button>
         </div>
         <div class="chat-body">
-            <button class="chat-option" onclick="showAnswer(1)">Option 1</button>
-            <button class="chat-option" onclick="showAnswer(2)">Option 2</button>
-            <button class="chat-option" onclick="showAnswer(3)">Option 3</button>
+            <div id="initial-options">
+                <button class="chat-option" onclick="showAnswer(1)">Option 1</button>
+                <button class="chat-option" onclick="showAnswer(2)">Option 2</button>
+                <button class="chat-option" onclick="showNextOptions('next-options')">Option 3</button>
+            </div>
+            <div id="next-options" style="display: none;">
+                <button class="chat-option" onclick="showAnswer(4)">Option 4</button>
+                <button class="chat-option" onclick="showNextOptions('final-options')">Option 5</button>
+            </div>
+            <div id="final-options" style="display: none;">
+                <button class="chat-option" onclick="showAnswer(6)">Option 6</button>
+                <button class="chat-option" onclick="showAnswer(7)">Option 7</button>
+            </div>
             <div id="chat-answer" class="chat-answer"></div>
         </div>
     </div>
     <script>
         function showAnswer(option) {
+            const initialOptions = document.getElementById('initial-options');
+            const nextOptions = document.getElementById('next-options');
+            const finalOptions = document.getElementById('final-options');
             const answerDiv = document.getElementById('chat-answer');
+            initialOptions.style.display = 'none';
+            nextOptions.style.display = 'none';
+            finalOptions.style.display = 'none';
             answerDiv.innerHTML = `Placeholder answer ${option}`;
         }
 
+        function showNextOptions(target) {
+            const initialOptions = document.getElementById('initial-options');
+            const nextOptions = document.getElementById('next-options');
+            const finalOptions = document.getElementById('final-options');
+            initialOptions.style.display = 'none';
+            nextOptions.style.display = target === 'next-options' ? 'flex' : 'none';
+            finalOptions.style.display = target === 'final-options' ? 'flex' : 'none';
+            document.getElementById('chat-answer').innerHTML = '';
+        }
+
+        function resetChat() {
+            const initialOptions = document.getElementById('initial-options');
+            const nextOptions = document.getElementById('next-options');
+            const finalOptions = document.getElementById('final-options');
+            const answerDiv = document.getElementById('chat-answer');
+            initialOptions.style.display = 'flex';
+            nextOptions.style.display = 'none';
+            finalOptions.style.display = 'none';
+            answerDiv.innerHTML = '';
+        }
+
         function closeChat() {
+            resetChat();
             window.parent.postMessage('closeChat', '*');
         }
     </script>
