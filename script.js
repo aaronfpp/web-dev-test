@@ -7,3 +7,9 @@ function toggleChat() {
     const chatPopup = document.getElementById('chat-popup');
     chatPopup.classList.toggle('open');
 }
+
+window.addEventListener('message', (event) => {
+    if (event.data === 'closeChat') {
+        toggleChat();
+    }
+});
