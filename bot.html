@@ -35,6 +35,16 @@
         </div>
     </div>
     <script>
+        let wordList = {};
+
+        // Load wordlist.json
+        fetch('wordlist.json')
+            .then(response => response.json())
+            .then(data => {
+                wordList = data;
+            })
+            .catch(error => console.error('Error loading wordlist:', error));
+
         function showAnswer(option) {
             const initialOptions = document.getElementById('initial-options');
             const nextOptions = document.getElementById('next-options');
@@ -63,17 +73,35 @@
             const initialOptions = document.getElementById('initial-options');
             const nextOptions = document.getElementById('next-options');
             const finalOptions = document.getElementById('final-options');
-            const userText = input.value.trim();
+            const userText = input.value.trim().toLowerCase();
             if (userText) {
                 answerDiv.innerHTML += `<div class="user-message">You: ${userText}</div>`;
-                answerDiv.innerHTML += `<div class="bot-message">Processing your input...</div>`;
-                initialOptions.style.display = 'none';
-                nextOptions.style.display = 'none';
-                finalOptions.style.display = 'none';
+                let response = wordList.defaultResponse || 'Sorry, I didn’t understand that. Try another question or select an option.';
+                for (const [option, words] of Object.entries(wordList.options)) {
+                    if (words.some(word => userText.includes(word.toLowerCase()))) {
+                        const optionNum = option.replace('option', '');
+                        if (optionNum === '3') {
+                            showNextOptions('next-options');
+                            response = '';
+                            break;
+                        } else if (optionNum === '5') {
+                            showNextOptions('final-options');
+                            response = '';
+                            break;
+                        } else {
+                            showAnswer(optionNum);
+                            return;
+                        }
+                    }
+                }
+                if (response) {
+                    answerDiv.innerHTML += `<div class="bot-message">${response}</div>`;
+                    initialOptions.style.display = 'none';
+                    nextOptions.style.display = 'none';
+                    finalOptions.style.display = 'none';
+                }
                 input.value = '';
                 answerDiv.scrollTop = answerDiv.scrollHeight; // Scroll to bottom
-                // Future word list logic can be added here, e.g.:
-                // if (userText.includes('keyword')) showAnswer(X);
             }
         }
 
