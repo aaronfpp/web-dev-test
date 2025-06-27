@@ -1,0 +1,12 @@
+{
+    "options": {
+        "option1": ["hello", "hi", "greet"],
+        "option2": ["help", "support", "assist"],
+        "option3": ["more", "next", "options"],
+        "option4": ["info", "details", "information"],
+        "option5": ["advanced", "further", "more options"],
+        "option6": ["deep", "technical", "in-depth"],
+        "option7": ["other", "misc", "miscellaneous"]
+    },
+    "defaultResponse": "Sorry, I didn’t understand that. Try another question or select an option."
+}
