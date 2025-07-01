@@ -1,0 +1,32 @@
+{
+  "options": [
+    {
+      "id": "option1",
+      "text": "Who are IFSTA books for?",
+      "keywords": ["who", "books", "ifsta", "firefighters"],
+      "response": "IFSTA books, packages, guides, and other products are for firefighters, by firefighters. <a href=\"https://www.ifsta.org/about-us/history\">See more here</a>",
+      "next": null
+    },
+    {
+      "id": "option3",
+      "text": "I need help with my order.",
+      "keywords": ["order", "help", "support", "assistance"],
+      "response": null,
+      "next": "next-options"
+    },
+    {
+      "id": "option4",
+      "text": "I ordered over the phone.",
+      "keywords": ["phone", "call", "ordered phone"],
+      "response": "Send us an email at <a href=\"mailto:support@ifsta.org\">support@ifsta.org</a> or give us a call at (800) 654-4055 from 8 - 5 CST",
+      "next": null,
+      "parent": "next-options"
+    }
+  ],
+  "groups": {
+    "initial-options": ["option1", "option2", "option3"],
+    "next-options": ["option4", "option5"],
+    "final-options": ["option6", "option7"]
+  },
+  "defaultResponse": "Sorry, I didn’t understand that. Try another question or select an option."
+}
