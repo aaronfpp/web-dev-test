@@ -97,32 +97,199 @@ p {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4a90e2, #000);
+    background: linear-gradient(135deg, #b32318, #000);
     color: #fff;
     border: none;
-    font-size: 0.9em;
+    font-size: 18px;
     text-align: center;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
 }
 
 .chat-popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 25%;
-    min-width: 250px;
-    height: 50%;
-    min-height: 300px;
+    width: 100%;
+    height: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: none;
     z-index: 1001;
+    background-color: #fff;
 }
 
 .chat-popup.open {
     display: block;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #fff;
+    color: #bf3434;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+}
+
+.chat-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #003551;
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.chat-close-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.chat-reset-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #003551;
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.chat-reset-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    background-color: #cbccce;
+}
+
+#initial-options,
+#next-options,
+#final-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-option {
+    background-color: #fff;
+    color: #bf3434;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.chat-option:hover {
+    background-color: #f0f0f0;
+}
+
+.chat-answer {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #231f20;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.user-message {
+    background-color: #e6f0fa;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    align-self: flex-start;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #231f20;
+}
+
+.bot-message {
+    background-color: #f0f0f0;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #231f20;
+}
+
+.chat-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    color: #231f20;
+}
+
+.chat-input::placeholder {
+    color: #231f20;
+    font-style: italic;
+}
+
+.chat-submit {
+    background-color: #fff;
+    color: #bf3434;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.chat-submit:hover {
+    background-color: #f0f0f0;
 }
 
 #webchat {
