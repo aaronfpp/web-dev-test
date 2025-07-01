@@ -55,7 +55,7 @@
     }
   ],
   "groups": {
-    "initial-options": ["option1", "option2", "option3"],
+    "initial-options": ["option1", "option2", "option3", "option8"]
     "next-options": ["option4", "option5"],
     "final-options": ["option6", "option7"]
   },
