@@ -53,6 +53,13 @@
       "next": null,
       "parent": "final-options"
     }
+    {
+  "id": "option8",
+  "text": "What is the IFSTA mission?",
+  "keywords": ["mission", "vision", "goals"],
+  "response": "Learn about IFSTA’s mission at <a href=\"https://www.ifsta.org/about-us\">here</a>",
+  "next": null
+   }
   ],
   "groups": {
     "initial-options": ["option1", "option2", "option3", "option8"]
