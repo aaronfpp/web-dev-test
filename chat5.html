@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -46,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -60,129 +20,36 @@
             <li><a href="chat.html">Chat</a></li>
             <li><a href="chat2.html">Chat 2</a></li>
             <li><a href="chat3.html">Chat 3</a></li>
-            <li><a href="chat4.html">Chat 4</a></li>
-	    <li><a href="chat5.html">Chat 5</a></li>
+	    <li><a href="chat4.html">Chat 4</a></li>
+            <li><a href="chat5.html">Chat 5</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="paint.html">Paint</a></li>
         </ul>
     </nav>
     <main>
-	    <p>CHAT 4 REMIX</p>
-        <button class="chat-btn" onclick="toggleChat()">Click to Chat</button>
-        <div id="chat-popup" class="chat-popup">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <button class="chat-reset-btn" onclick="resetChat()">⟳</button>
-                    What would you like to know?
-                    <button class="chat-close-btn" onclick="closeChat()">✕</button>
-                </div>
-                <div class="chat-body">
-                    <div id="chat-options"></div>
-                    <div id="chat-answer" class="chat-answer"></div>
-                    <form id="chat-form" onsubmit="handleTextInput(event)">
-                        <input type="text" id="chat-input" class="chat-input" placeholder="Type your question..." required>
-                        <button type="submit" class="chat-submit">Send</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <p>Chatbot by Landbot.io. Uses customizable conversational flows with visual builder.</p>
+        <p>visual flow and ai, ticketing, integrations, and multi-channel support.</p>
+        <div id="landbot-chat"></div>
     </main>
     <script src="script.js"></script>
     <script>
-        let chatbotConfig = null;
-
-        // Load configuration
-        fetch('chatbot-config.json')
-            .then(response => response.json())
-            .then(data => {
-                chatbotConfig = data;
-                renderOptions('initial-options');
-            })
-            .catch(error => console.error('Error loading chatbot config:', error));
-
-        function renderOptions(groupId) {
-            const optionsDiv = document.getElementById('chat-options');
-            const answerDiv = document.getElementById('chat-answer');
-            optionsDiv.innerHTML = '';
-            answerDiv.innerHTML = '';
-            const groupOptions = chatbotConfig.groups[groupId] || [];
-            groupOptions.forEach(optionId => {
-                const option = chatbotConfig.options.find(opt => opt.id === optionId);
-                if (option) {
-                    const button = document.createElement('button');
-                    button.className = 'chat-option';
-                    button.textContent = option.text;
-                    button.onclick = () => {
-                        if (option.response) {
-                            showAnswer(optionId);
-                        } else if (option.next) {
-                            showNextOptions(option.next);
-                        }
-                    };
-                    optionsDiv.appendChild(button);
-                }
-            });
-            optionsDiv.style.display = groupOptions.length ? 'flex' : 'none';
-        }
-
-        function showAnswer(optionId) {
-            const option = chatbotConfig.options.find(opt => opt.id === optionId);
-            const answerDiv = document.getElementById('chat-answer');
-            document.getElementById('chat-options').style.display = 'none';
-            answerDiv.innerHTML = `<div class="bot-message">${option.response}</div>`;
-            answerDiv.scrollTop = answerDiv.scrollHeight;
-        }
-
-        function showNextOptions(groupId) {
-            renderOptions(groupId);
-        }
-
-        function handleTextInput(event) {
-            event.preventDefault();
-            const input = document.getElementById('chat-input');
-            const answerDiv = document.getElementById('chat-answer');
-            const userText = input.value.trim().toLowerCase();
-            if (userText) {
-                answerDiv.innerHTML += `<div class="user-message">You: ${userText}</div>`;
-                let response = chatbotConfig.defaultResponse;
-                let nextGroup = null;
-                for (const option of chatbotConfig.options) {
-                    if (option.keywords.some(word => userText.includes(word.toLowerCase()))) {
-                        if (option.response) {
-                            showAnswer(option.id);
-                            return;
-                        } else if (option.next) {
-                            nextGroup = option.next;
-                            response = '';
-                            break;
-                        }
-                    }
-                }
-                if (response) {
-                    answerDiv.innerHTML += `<div class="bot-message">${response}</div>`;
-                    document.getElementById('chat-options').style.display = 'none';
-                }
-                if (nextGroup) {
-                    renderOptions(nextGroup);
-                }
-                input.value = '';
-                answerDiv.scrollTop = answerDiv.scrollHeight;
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+            if (!myLandbot) {
+                var s = document.createElement('script');
+                s.type = "module";
+                s.async = true;
+                s.addEventListener('load', function() {
+                    myLandbot = new Landbot.Livechat({
+                        configUrl: 'https://storage.googleapis.com/landbot.site/v3/H-3028274-JIXAK0XYW4QCWP9A/index.json',
+                    });
+                });
+                s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
             }
-        }
-
-        function resetChat() {
-            renderOptions('initial-options');
-            document.getElementById('chat-input').value = '';
-        }
-
-        function closeChat() {
-            resetChat();
-            toggleChat();
-        }
-
-        function toggleChat() {
-            const chatPopup = document.getElementById('chat-popup');
-            chatPopup.classList.toggle('open');
         }
     </script>
 </body>
